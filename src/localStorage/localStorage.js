@@ -5,19 +5,17 @@ export const getData = (key) => {
     try{
         return JSON.parse(localStorage.getItem(key))
       }
-      catch{
-          console.error("error")
+      catch(err){
+          console.error(`Error get ${key} from localStorage`,err)
       }
 }
 export const storeData = (key,item) => {
-    if(!localStorage){
-        return
-    }
+    if(!localStorage) return;
     try{
         return localStorage.setItem(key,JSON.stringify(item))
     }
-    catch{
-        console.error("error")
+    catch(err){
+        console.error(`Error storing ${key} to localStorage`,err)
     }
   }
   

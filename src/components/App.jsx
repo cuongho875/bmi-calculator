@@ -11,6 +11,7 @@ function App() {
   const InitialData=()=>getData("data")||[];
   const [state,setState]=useState(InitialData);
   const [data,setData]=useState({});
+  const [history,setHistory]=useState([])
   const lenght=Object.keys(state).length;
   useEffect(()=>{
     storeData("data",state);
@@ -27,6 +28,7 @@ function App() {
     setState(newVal)
   }
   const DeleteData=id=>{
+    setHistory(state)
     const newState=state.filter(obj=>{
       if(obj.id!=id){
         return obj;
@@ -34,6 +36,11 @@ function App() {
     }
     )
     setState(newState);
+  }
+  console.log(history.length)
+  const UndoHistory=()=>{
+    setState(history);
+    setHistory([])
   }
   return (
     $(document).ready(function(){
@@ -55,6 +62,12 @@ function App() {
         <BarBMI {...data}/>
         <h2 className="InfoBMI-title center">7 Day Data</h2>
         <div className="row InfoBMI">
+          {history.length>0?
+          <div className="InfoBMI-undo">
+          <span className="undo-btn" onClick={UndoHistory}>
+            Un Do
+          </span>
+        </div>:''}
         {
           state.map((obj,index)=>{
             if(lenght<7){
